@@ -50,6 +50,11 @@ namespace StefanG.Tools
             {
                 foreach (SPWebApplication webapp in webService.WebApplications)
                 {
+                    // for simplicity we identify the web application name
+                    string webAppName = webapp.Name ?? webapp.GetResponseUri(SPUrlZone.Default).Port.ToString();
+                    if (webapp is SPAdministrationWebApplication)
+                        webAppName = "Central Administration Webapplication";
+
                     try
                     {
                         // name of the object in the configuration database holding the machine keys for the given web application
@@ -64,11 +69,6 @@ namespace StefanG.Tools
                         string validationKey = keys[0];
                         string decryptionsKey = keys[1];
 
-                        // for simplicity we identify the 
-                        string webAppName = webapp.Name ?? webapp.GetResponseUri(SPUrlZone.Default).Port.ToString();
-                        if (webapp is SPAdministrationWebApplication)
-                            webAppName = "Central Administration Website";
-
                         Console.WriteLine(webAppName);
                         Console.WriteLine(" - Validation Key: " + validationKey);
                         Console.WriteLine(" - Decryption Key: " + decryptionsKey);
@@ -76,7 +76,7 @@ namespace StefanG.Tools
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine("Error reading configuration for web application "+webapp.Name+": " + ex.Message);
+                        Console.WriteLine("Error reading configuration for web application "+webAppName+": " + ex.Message);
                     }
 
                 }
