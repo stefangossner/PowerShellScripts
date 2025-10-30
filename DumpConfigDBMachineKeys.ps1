@@ -63,6 +63,13 @@ namespace StefanG.Tools
                         // retrieving the machine keys from config db (or more exactly the configuration cache of the local machine
                         SPSecureDBCredential cred = farm.GetObject(name, farm.Id, typeof(SPSecureDBCredential)) as SPSecureDBCredential;
 
+                        // check for credentials
+                        if (cred == null)
+                        {
+                            Console.WriteLine("No machine keys found for web application in config cache" + webAppName);
+                            continue;
+                        }
+
                         // validation and decryption key are stored in a single string separated by "|". Splitting.
                         string bothKeys = cred.Password;
                         string[] keys = bothKeys.Split('|');
