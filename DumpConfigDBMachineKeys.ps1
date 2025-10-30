@@ -66,7 +66,7 @@ namespace StefanG.Tools
                         // check for credentials
                         if (cred == null)
                         {
-                            Console.WriteLine("No machine keys found for web application in config cache" + webAppName);
+                            Console.WriteLine("No machine keys found for web application in config cache: " + webAppName);
                             continue;
                         }
 
